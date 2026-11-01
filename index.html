@@ -173,6 +173,10 @@
     .stamp.on .sq{border:0; width:auto; height:auto; font-size:15px}
     .h3 .stamp{margin:0 0 0 auto; font-size:13px}
     .toc .ok{color:var(--olive); font-family:var(--sans); font-weight:700; font-size:13px; margin-left:6px}
+    #installBar{margin-top:14px}
+    #installBar[hidden]{display:none}
+    .installBtn{font-family:var(--serif); font-size:15.5px; color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:8px 18px}
+    .installBtn:active{background:var(--accentSoft)}
     .colophon{margin-top:40px; text-align:center}
     .colophon p{margin:6px 0 0; font-family:var(--serif); font-style:italic; color:var(--muted); font-size:15px}
     .lede{font-family:var(--serif); font-style:italic; color:var(--ink2); font-size:16px; margin:0}
@@ -228,6 +232,9 @@
       <div class="smallcaps">личная кухня</div>
       <h1>Книга рецептов</h1>
       <p>Мангал, казан, выпечка и всё к столу — с пересчётом на вес и число гостей.</p>
+      <div id="installBar" hidden>
+        <button type="button" class="installBtn" data-install>Установить на телефон</button>
+      </div>
     </header>
     <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
 
@@ -747,5 +754,18 @@
     }
     renderTabs(); renderChips(); syncInput(); render();
   </script>
+<script>
+(function(){
+  var dp = null, bar = document.getElementById('installBar');
+  function standalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); dp = e; if(!standalone()) bar.hidden = false; });
+  window.addEventListener('appinstalled', function(){ dp = null; bar.hidden = true; });
+  bar.querySelector('[data-install]').addEventListener('click', function(){
+    if(!dp) return; dp.prompt();
+    dp.userChoice.then(function(){ dp = null; bar.hidden = true; }, function(){ dp = null; bar.hidden = true; });
+  });
+  var x = bar.querySelector('[data-close]'); if(x) x.addEventListener('click', function(){ bar.hidden = true; });
+})();
+</script>
 </body>
 </html>

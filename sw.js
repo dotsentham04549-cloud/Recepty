@@ -1,4 +1,4 @@
-const CACHE = 'recepty-v15';
+const CACHE = 'recepty-v16';
 const ASSETS = ['./', './index.html', './recipes.js', './manifest.json', './icons/icon-192.png', './icons/icon-512.png',
   './fonts/lora-cyrillic-400-italic.woff2',
   './fonts/lora-cyrillic-400-normal.woff2',
