@@ -1,9 +1,9 @@
 {
-  "id": "./?app=recepty-1",
+  "id": "./?app=recepty-2",
   "name": "Книга рецептов",
   "short_name": "Рецепты",
   "description": "Личная книга рецептов с калькулятором: мангал, казан, овощи, пицца, соусы",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#f4ecdd",
   "theme_color": "#f4ecdd",
