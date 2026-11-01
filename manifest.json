@@ -2,7 +2,7 @@
   "id": "./?app=recepty-1",
   "name": "Книга рецептов",
   "short_name": "Рецепты",
-  "description": "Личная книга рецептов с калькулятором: мангал, казан, овощи, соусы",
+  "description": "Личная книга рецептов с калькулятором: мангал, казан, овощи, пицца, соусы",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f4ecdd",
