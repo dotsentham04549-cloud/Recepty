@@ -5,8 +5,8 @@
   "description": "Личная книга рецептов с калькулятором: мангал, казан, овощи, соусы",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#100f0c",
-  "theme_color": "#11100d",
+  "background_color": "#f4ecdd",
+  "theme_color": "#f4ecdd",
   "orientation": "portrait-primary",
   "icons": [
     {

@@ -3,300 +3,229 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#11100d" />
+  <meta name="theme-color" content="#f4ecdd" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1c1712" media="(prefers-color-scheme: dark)" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Рецепты" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Книга рецептов</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preload" href="fonts/lora-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/lora-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   <style>
+    /* ---------- шрифты (лежат в приложении, работают без сети) ---------- */
+    @font-face{font-family:Lora;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/lora-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:Lora;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/lora-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+    @font-face{font-family:Lora;font-style:italic;font-weight:400;font-display:swap;src:url(fonts/lora-cyrillic-400-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:Lora;font-style:italic;font-weight:400;font-display:swap;src:url(fonts/lora-latin-400-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+    @font-face{font-family:Lora;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/lora-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:Lora;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/lora-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+    @font-face{font-family:Lora;font-style:normal;font-weight:700;font-display:swap;src:url(fonts/lora-cyrillic-700-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:Lora;font-style:normal;font-weight:700;font-display:swap;src:url(fonts/lora-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+    @font-face{font-family:'PT Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/pt-sans-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:'PT Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/pt-sans-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+    @font-face{font-family:'PT Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/pt-sans-cyrillic-700-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:'PT Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/pt-sans-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+
+    /* ---------- цвета: бумага днём, тёплая лампа ночью ---------- */
     :root{
-      --bg:#100f0c;
-      --card:rgba(255,255,255,.075);
-      --line:rgba(255,255,255,.12);
-      --text:#fff8e8;
-      --muted:rgba(255,248,232,.68);
-      --soft:rgba(255,248,232,.42);
-      --fire:#ffb23e;
-      --fire2:#ff6b2c;
-      --green:#9bd36a;
-      --shadow:0 10px 26px rgba(0,0,0,.32);
-      --safeTop:env(safe-area-inset-top);
-      --safeBottom:env(safe-area-inset-bottom);
+      --paper:#f4ecdd; --sheet:#fbf6ec; --ink:#2e241b; --ink2:#5a4b3c; --muted:#8a7965; --rule:#dccdb2;
+      --accent:#a3472a; --accentSoft:#f1dccb; --olive:#5b6730; --oliveSoft:#e9e7d0; --grain:.05;
+      --serif:Lora,'PT Serif',Georgia,'Times New Roman',serif;
+      --sans:'PT Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+      --safeTop:env(safe-area-inset-top); --safeBottom:env(safe-area-inset-bottom);
+      color-scheme:light;
     }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --paper:#1c1712; --sheet:#25201a; --ink:#efe4d1; --ink2:#cdbfa8; --muted:#9d8d77; --rule:#3e352b;
+        --accent:#e3916a; --accentSoft:#3b2a21; --olive:#bac684; --oliveSoft:#2b2d20; --grain:.035;
+        color-scheme:dark;
+      }
+    }
+    :root[data-theme="dark"]{
+      --paper:#1c1712; --sheet:#25201a; --ink:#efe4d1; --ink2:#cdbfa8; --muted:#9d8d77; --rule:#3e352b;
+      --accent:#e3916a; --accentSoft:#3b2a21; --olive:#bac684; --oliveSoft:#2b2d20; --grain:.035;
+      color-scheme:dark;
+    }
+
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:var(--bg);
-      overflow-x:hidden;
+      margin:0; color:var(--ink); background:var(--paper);
+      font-family:var(--sans); font-size:16px; line-height:1.45; overflow-x:hidden;
     }
-    button{font:inherit; cursor:pointer}
-    .app{
-      min-height:100%;
-      padding:calc(18px + var(--safeTop)) 16px calc(28px + var(--safeBottom));
-      max-width:760px;
-      margin:0 auto;
+    /* лёгкая фактура бумаги */
+    body:before{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:var(--grain);
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    .hero{
-      position:relative;
-      padding:20px 18px 16px;
-      border:1px solid var(--line);
-      border-radius:34px;
-      background:linear-gradient(165deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
-      box-shadow:var(--shadow);
-      contain:paint;
-      overflow:hidden;
-    }
-    .hero:after{
-      content:""; position:absolute; right:-42px; top:-54px; width:168px; height:168px;
-      background:radial-gradient(circle, rgba(255,178,62,.45), rgba(255,107,44,.10) 48%, transparent 70%);
-    }
-    .logoRow{display:flex; align-items:center; gap:13px; position:relative; z-index:1}
-    .logo{
-      width:54px; height:54px; border-radius:19px; flex:0 0 auto;
-      display:grid; place-items:center;
-      background:linear-gradient(145deg,var(--fire),var(--fire2));
-      box-shadow:0 12px 30px rgba(255,107,44,.25), inset 0 1px 0 rgba(255,255,255,.35);
-    }
-    .logo svg{width:36px;height:36px;display:block;filter:drop-shadow(0 6px 10px rgba(113,35,0,.35))}
-    h1{margin:0; font-size:27px; letter-spacing:-.9px; line-height:1}
-    .subtitle{margin:7px 0 0; color:var(--muted); font-size:14px; line-height:1.35}
-    .inputCard{
-      margin-top:14px;
-      padding:13px;
-      background:rgba(0,0,0,.24);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:26px;
-      position:relative; z-index:1;
-    }
-    .inputTop{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 8px 2px}
-    .label{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; color:var(--soft); font-size:12px; letter-spacing:.11em; text-transform:uppercase}
-    .seg{flex:0 0 auto; display:flex; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10); border-radius:999px; padding:3px}
-    .seg button{white-space:nowrap; border:0; background:transparent; color:var(--muted); padding:6px 11px; border-radius:999px; font-size:12px; font-weight:850}
-    .seg button.on{background:linear-gradient(145deg,var(--fire),#ffd48b); color:#1e1607}
-    .weightWrap{display:grid; grid-template-columns:1fr auto; gap:9px; align-items:center}
+    button{font:inherit; color:inherit; cursor:pointer; background:none; border:0; padding:0}
+    .app{position:relative; z-index:1; max-width:680px; margin:0 auto; padding:calc(26px + var(--safeTop)) 20px calc(36px + var(--safeBottom))}
+
+    .smallcaps{font-family:var(--sans); font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+    .ornament{display:flex; align-items:center; gap:12px; color:var(--rule); margin:18px 0}
+    .ornament:before,.ornament:after{content:""; flex:1; height:1px; background:var(--rule)}
+    .ornament span{color:var(--accent); display:flex}
+
+    /* ---------- титульный лист ---------- */
+    .title{text-align:center; padding:6px 4px 0}
+    .title h1{font-family:var(--serif); font-weight:700; font-size:38px; line-height:1.05; letter-spacing:-.5px; margin:8px 0 8px}
+    .title p{font-family:var(--serif); font-style:italic; color:var(--ink2); font-size:15.5px; margin:0 auto; max-width:30em}
+
+    /* ---------- карточка расчёта ---------- */
+    .card{background:var(--sheet); border:1px solid var(--rule); border-radius:14px; padding:16px 18px; box-shadow:0 1px 0 rgba(80,50,20,.05), 0 8px 24px -16px rgba(80,50,20,.25)}
+    .inputTop{display:flex; align-items:baseline; justify-content:space-between; gap:12px}
+    .label{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+    .seg{display:flex; gap:14px; flex:0 0 auto}
+    .seg button{font-family:var(--serif); font-size:15px; color:var(--muted); padding:2px 0; border-bottom:1.5px solid transparent; white-space:nowrap}
+    .seg button.on{color:var(--ink); border-bottom-color:var(--accent)}
+    .weightWrap{display:flex; align-items:baseline; gap:10px; margin-top:6px; border-bottom:1.5px solid var(--ink2); padding-bottom:2px}
     input[type="number"]{
-      width:100%; outline:none; color:var(--text);
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:19px;
-      padding:16px;
-      font-size:28px; font-weight:800; letter-spacing:-.8px;
+      flex:1; min-width:0; width:100%; outline:none; border:0; background:transparent; color:var(--ink);
+      font-family:var(--serif); font-weight:600; font-size:44px; line-height:1.1; padding:4px 0; letter-spacing:-.5px;
       appearance:textfield; -moz-appearance:textfield;
     }
     input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{appearance:none;margin:0}
-    .unit{
-      height:61px; min-width:70px; padding:0 10px;
-      display:grid; place-items:center;
-      border-radius:19px;
-      background:linear-gradient(145deg, rgba(255,178,62,.18), rgba(255,107,44,.11));
-      color:#ffd898;
-      border:1px solid rgba(255,178,62,.24);
-      font-weight:900; font-size:18px;
-    }
-    .quickWeights{display:flex; gap:8px; overflow-x:auto; margin-top:10px; padding-bottom:2px; scrollbar-width:none}
+    .unit{font-family:var(--serif); font-style:italic; font-size:22px; color:var(--ink2)}
+    .quickWeights{display:flex; gap:7px; overflow-x:auto; margin:12px -18px 0; padding:0 18px 2px; scrollbar-width:none}
     .quickWeights::-webkit-scrollbar{display:none}
-    .qw{
-      border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:var(--text);
-      border-radius:999px; padding:9px 12px; font-weight:850; font-size:13px; white-space:nowrap;
-    }
-    .qw:active,.chip:active,.tab:active{transform:scale(.98)}
-    .toggleRow{display:flex; align-items:center; justify-content:space-between; gap:12px; margin:12px 2px 0}
-    .toggleText{color:var(--muted); font-size:13px; font-weight:750}
-    .switch{position:relative; width:56px; height:32px; flex:0 0 auto}
-    .switch input{display:none}
-    .slider{position:absolute; inset:0; border-radius:999px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.12)}
-    .slider:before{content:""; position:absolute; width:24px; height:24px; left:3px; top:3px; border-radius:50%; background:#fff4d7}
-    .switch input:checked + .slider{background:rgba(255,178,62,.32); border-color:rgba(255,178,62,.5)}
-    .switch input:checked + .slider:before{transform:translateX(24px); background:#ffd17a}
+    .qw{border:1px solid var(--rule); border-radius:999px; padding:6px 12px; font-size:14px; color:var(--ink2); white-space:nowrap; background:var(--paper)}
+    .qw:active,.toc button:active{opacity:.6}
+    .check{display:flex; align-items:center; gap:10px; margin-top:14px; font-size:14px; color:var(--ink2); cursor:pointer}
+    .check input{position:absolute; opacity:0; pointer-events:none}
+    .box{width:20px; height:20px; border:1.5px solid var(--ink2); border-radius:4px; display:grid; place-items:center; flex:0 0 auto}
+    .box:after{content:""; width:10px; height:5px; border-left:2px solid var(--accent); border-bottom:2px solid var(--accent); transform:rotate(-45deg) translate(1px,-1px); opacity:0}
+    .check input:checked + .box:after{opacity:1}
+    .check input:focus-visible + .box{outline:2px solid var(--accent); outline-offset:2px}
 
-    .pickBar{margin-top:14px; display:grid; gap:9px}
-    .tabs{display:flex; gap:7px; overflow-x:auto; scrollbar-width:none}
+    /* ---------- оглавление ---------- */
+    .picker{margin-top:26px}
+    .tocHead{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:10px}
+    .tabs{display:flex; gap:16px; overflow-x:auto; scrollbar-width:none; border-bottom:1px solid var(--rule); margin-bottom:10px}
     .tabs::-webkit-scrollbar{display:none}
-    .tab{
-      border:1px solid rgba(255,255,255,.11); background:rgba(255,255,255,.055); color:var(--muted);
-      border-radius:999px; padding:9px 13px; font-weight:850; font-size:13px; white-space:nowrap;
-    }
-    .tab.on{color:#1e1607; background:linear-gradient(145deg,var(--fire),#ffd48b); border-color:transparent}
-    .tab b{font-weight:900; opacity:.6; margin-left:4px}
-    .search{
-      width:100%; outline:none; color:var(--text);
-      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.11);
-      border-radius:18px; padding:12px 14px; font-size:15px; font-weight:650;
-    }
-    .search::placeholder{color:var(--soft)}
-    .chips{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:9px; margin-top:10px}
-    .chip{
-      min-height:54px;
-      border:1px solid rgba(255,255,255,.11);
-      border-radius:20px;
-      background:rgba(255,255,255,.065);
-      color:var(--text);
-      display:flex; align-items:center; gap:9px;
-      padding:9px 11px;
-      font-size:13px; font-weight:800;
-      text-align:left;
-    }
-    .chip.active{
-      background:linear-gradient(145deg, rgba(255,178,62,.28), rgba(255,107,44,.16));
-      border-color:rgba(255,178,62,.48);
-    }
-    .chip > span:first-child{font-size:22px; line-height:1}
-    .chip small{display:block; color:var(--muted); font-size:11px; font-weight:700; margin-top:3px; line-height:1.1}
+    .tab{font-family:var(--serif); font-size:15.5px; color:var(--muted); padding:6px 0 8px; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px}
+    .tab.on{color:var(--ink); border-bottom-color:var(--accent)}
+    .tab b{font-family:var(--sans); font-weight:400; font-size:12px; margin-left:4px; color:var(--muted)}
+    .search{width:100%; outline:none; border:0; border-bottom:1px solid var(--rule); background:transparent; color:var(--ink); font-family:var(--serif); font-style:italic; font-size:16px; padding:8px 2px; margin-bottom:6px}
+    .search::placeholder{color:var(--muted)}
+    .search:focus{border-bottom-color:var(--accent)}
     .picker.closed .tabs,.picker.closed .search{display:none}
-    .picker.closed .chips{grid-template-columns:1fr}
-    .chip .chg{margin-left:auto; color:#ffd898; font-size:12px; font-weight:850; white-space:nowrap}
-    .empty{color:var(--soft); font-size:13px; padding:8px 4px}
+    .toc{display:block}
+    .toc button{display:flex; align-items:baseline; gap:8px; width:100%; text-align:left; padding:10px 2px; border-bottom:1px dotted var(--rule)}
+    .toc .t{font-family:var(--serif); font-size:17px; color:var(--ink)}
+    .toc .s{display:block; font-family:var(--serif); font-style:italic; font-size:13.5px; color:var(--muted); margin-top:1px}
+    .toc .mark{font-family:var(--serif); color:var(--accent); width:12px; flex:0 0 12px}
+    .toc .active .t{color:var(--accent)}
+    .toc .chapter{margin-left:auto; padding-left:10px; font-size:12px; color:var(--muted); white-space:nowrap}
+    .current{display:flex; align-items:baseline; gap:10px; width:100%; text-align:left; padding:12px 16px; border:1px solid var(--rule); border-radius:12px; background:var(--sheet)}
+    .current .t{font-family:var(--serif); font-size:17px}
+    .current .chg{margin-left:auto; font-family:var(--serif); font-style:italic; color:var(--accent); white-space:nowrap; font-size:15px}
+    .empty{font-family:var(--serif); font-style:italic; color:var(--muted); padding:12px 2px}
 
-    .resultHead{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:20px 2px 10px}
-    .resultTitle{font-size:21px; font-weight:950; letter-spacing:-.55px}
-    .badge{
-      color:#1e1607; background:linear-gradient(145deg,var(--fire),#ffd48b);
-      border-radius:999px; padding:8px 11px; font-weight:950; font-size:12px; white-space:nowrap;
-    }
-    .facts{display:flex; flex-wrap:wrap; gap:7px; margin:0 0 12px}
-    .fact{
-      display:flex; align-items:center; gap:6px;
-      padding:8px 11px; border-radius:999px;
-      background:rgba(255,178,62,.09); border:1px solid rgba(255,178,62,.20);
-      color:#ffe3ad; font-size:12.5px; font-weight:800;
-    }
-    .grid{display:grid; gap:10px}
-    .ingredient{
-      display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
-      padding:14px; border-radius:24px;
-      background:var(--card); border:1px solid var(--line);
-      text-align:left; color:var(--text); width:100%;
-    }
-    .ingredient.base{background:linear-gradient(145deg, rgba(255,178,62,.16), rgba(255,107,44,.07)); border-color:rgba(255,178,62,.32)}
-    .ingredient.done{opacity:.42}
-    .ingredient.done .ingName{text-decoration:line-through}
-    .ingredient.done .ico{background:rgba(155,211,106,.25)}
-    .ico{width:37px; height:37px; border-radius:15px; display:grid; place-items:center; background:rgba(255,255,255,.08); font-size:20px}
-    .ingName{font-weight:850; letter-spacing:-.25px}
-    .opt{display:inline-block; margin-left:6px; padding:2px 7px; border-radius:999px; background:rgba(255,255,255,.09); color:var(--muted); font-size:10.5px; font-weight:800; vertical-align:2px}
-    .ingNote{margin-top:2px; font-size:12px; color:var(--muted); line-height:1.25}
-    .amount{text-align:right; font-size:18px; font-weight:950; letter-spacing:-.35px; white-space:nowrap}
-    .amount small{display:block; color:var(--muted); font-size:11px; font-weight:800; margin-top:3px}
-    .listTools{display:flex; justify-content:space-between; align-items:center; gap:10px; margin:10px 2px 0}
-    .hint{color:var(--soft); font-size:12px}
-    .btn{
-      border:1px solid rgba(255,178,62,.35); background:rgba(255,178,62,.12); color:#ffe3ad;
-      border-radius:999px; padding:9px 13px; font-weight:850; font-size:13px; white-space:nowrap;
-    }
-    .recipeBox{
-      margin-top:12px; border-radius:28px;
-      border:1px solid rgba(255,255,255,.12);
-      background:linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.045));
-      overflow:hidden;
-    }
-    .section{padding:16px 15px; border-top:1px solid rgba(255,255,255,.09)}
-    .section:first-child{border-top:0}
-    .sectionTitle{display:flex; align-items:center; gap:8px; font-size:14px; font-weight:950; margin-bottom:10px; color:#ffe3ad}
-    .steps{margin:0; padding-left:20px; color:rgba(255,248,232,.84); font-size:14px; line-height:1.55}
-    .steps li{margin:5px 0}
-    .times{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
-    .timeCard{padding:11px 10px; border-radius:18px; background:rgba(0,0,0,.19); border:1px solid rgba(255,255,255,.08)}
-    .timeCard b{display:block; font-size:15px; margin-bottom:2px}
-    .timeCard span{color:var(--muted); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.07em}
-    .rule{
-      margin-top:12px; padding:14px; border-radius:24px;
-      background:rgba(155,211,106,.08); border:1px solid rgba(155,211,106,.20);
-      color:rgba(236,255,214,.92); font-size:13px; line-height:1.42;
-    }
-    .rule b{color:#dfffb8}
-    .footerNote{margin:17px 4px 0; color:rgba(255,248,232,.45); font-size:12px; line-height:1.4; text-align:center}
+    /* ---------- страница рецепта ---------- */
+    #output{scroll-margin-top:16px}
+    .page{margin-top:30px}
+    .chapterLine{color:var(--accent)}
+    .recipeTitle{font-family:var(--serif); font-weight:700; font-size:31px; line-height:1.12; letter-spacing:-.3px; margin:6px 0 8px}
+    .yield{font-family:var(--serif); font-style:italic; color:var(--ink2); font-size:15.5px}
+    .yield b{font-style:normal; font-weight:600; color:var(--ink)}
+    .facts{display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:8px; font-size:14px; color:var(--ink2)}
+    .facts span:before{content:"·"; color:var(--accent); margin-right:6px; font-weight:700}
+    h2{font-family:var(--serif); font-weight:600; font-size:21px; margin:0 0 10px; display:flex; align-items:baseline; justify-content:space-between; gap:10px}
+    h2 small{font-family:var(--sans); font-weight:400; font-size:12.5px; color:var(--muted); letter-spacing:0}
+
+    .ing{display:block; width:100%; text-align:left; padding:8px 0}
+    .ing + .ing{border-top:1px solid color-mix(in srgb, var(--rule) 55%, transparent)}
+    .line{display:flex; align-items:baseline; gap:6px}
+    .name{font-family:var(--serif); font-size:17px; line-height:1.3}
+    .lead{flex:1; min-width:16px; border-bottom:1.5px dotted var(--rule); transform:translateY(-4px)}
+    .qty{font-family:var(--serif); font-weight:600; font-size:17px; white-space:nowrap; font-variant-numeric:lining-nums}
+    .qty small{font-family:var(--serif); font-weight:400; font-style:italic; font-size:14px; color:var(--ink2); margin-left:3px}
+    .note{font-family:var(--serif); font-style:italic; font-size:13.5px; color:var(--muted); margin-top:1px; padding-right:4.5em}
+    .opt{font-family:var(--serif); font-style:italic; font-size:13px; color:var(--olive); margin-left:6px; white-space:nowrap}
+    .ing.base .name{font-weight:700}
+    .ing.base .qty{color:var(--accent); font-size:19px}
+    .ing.done .name,.ing.done .qty{text-decoration:line-through; text-decoration-color:var(--accent); text-decoration-thickness:1.5px; color:var(--muted)}
+    .ing.done .note{opacity:.6}
+    .ing.done .name:before{content:"✓ "; color:var(--olive); font-weight:700}
+    .listTools{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:12px}
+    .hint{font-family:var(--serif); font-style:italic; font-size:13px; color:var(--muted)}
+    .btn{font-family:var(--serif); font-size:15px; color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:7px 14px; white-space:nowrap}
+    .btn:active{background:var(--accentSoft)}
+
+    .times{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule)}
+    .times div{padding:11px 8px; text-align:center}
+    .times div + div{border-left:1px solid var(--rule)}
+    .times b{display:block; font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.2}
+    .times span{display:block; margin-top:3px}
+
+    .steps{list-style:none; margin:0; padding:0; counter-reset:st}
+    .steps li{counter-increment:st; position:relative; padding:0 0 12px 40px; font-family:var(--serif); font-size:16.5px; line-height:1.55; color:var(--ink)}
+    .steps li:before{content:counter(st); position:absolute; left:0; top:-3px; width:28px; text-align:right; font-family:var(--serif); font-weight:700; font-size:24px; color:var(--accent)}
+
+    .margin{margin-top:8px; padding:12px 14px 12px 16px; background:var(--oliveSoft); border-left:3px solid var(--olive); border-radius:0 10px 10px 0; font-family:var(--serif); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--ink)}
+    .margin .smallcaps{display:block; font-style:normal; color:var(--olive); margin-bottom:4px}
+    .footerNote{margin:26px 6px 0; font-family:var(--serif); font-style:italic; color:var(--muted); font-size:13.5px; line-height:1.5; text-align:center}
+
     .toast{
-      position:fixed; left:50%; bottom:calc(22px + var(--safeBottom)); transform:translateX(-50%);
-      background:#2a2418; border:1px solid rgba(255,178,62,.35); color:#ffe3ad;
-      padding:11px 16px; border-radius:999px; font-weight:850; font-size:13px;
-      opacity:0; pointer-events:none; transition:opacity .2s;
+      position:fixed; left:50%; bottom:calc(22px + var(--safeBottom)); transform:translateX(-50%); z-index:5;
+      background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:999px;
+      font-family:var(--serif); font-size:14px; opacity:0; pointer-events:none; transition:opacity .2s;
     }
     .toast.show{opacity:1}
-
-    .ingredient{content-visibility:auto; contain-intrinsic-size:auto 72px}
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
-    }
-    @media(min-width:640px){
-      .chips{grid-template-columns:repeat(3,1fr)}
-      .grid{grid-template-columns:repeat(2, minmax(0,1fr))}
-    }
+    @media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
     @media(max-width:370px){
-      .app{padding-left:12px; padding-right:12px}
-      h1{font-size:24px}
-      .chips{grid-template-columns:1fr}
+      .app{padding-left:14px; padding-right:14px}
+      .title h1{font-size:32px}
+      .recipeTitle{font-size:27px}
       .times{grid-template-columns:1fr}
-      .ingredient{grid-template-columns:auto 1fr}
-      .amount{grid-column:2; text-align:left; margin-top:-5px}
+      .times div + div{border-left:0; border-top:1px solid var(--rule)}
+      .toc .chapter{display:none}
     }
   </style>
 </head>
 <body>
   <main class="app">
-    <section class="hero">
-      <div class="logoRow">
-        <div class="logo" aria-hidden="true">
-          <svg viewBox="0 0 64 64">
-            <defs>
-              <linearGradient id="flameOuter" x1="18" y1="8" x2="47" y2="58" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="#fff1a8"/>
-                <stop offset="0.38" stop-color="#ffb23e"/>
-                <stop offset="1" stop-color="#ff4b1f"/>
-              </linearGradient>
-              <linearGradient id="flameInner" x1="31" y1="25" x2="38" y2="54" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="#fff7cf"/>
-                <stop offset="1" stop-color="#ffd05b"/>
-              </linearGradient>
-            </defs>
-            <path d="M32 59c-10.2 0-18.5-7.5-18.5-17.9 0-7.7 4.2-12.7 8.5-17.5 3.7-4.1 7.4-8.3 8.1-14.8.1-1.1 1.5-1.5 2.2-.7 6.8 7.2 18.2 17.7 18.2 32.1C50.5 51.1 42.2 59 32 59Z" fill="url(#flameOuter)"/>
-            <path d="M33.5 56c-6.1 0-11-4.4-11-10.6 0-4.6 2.5-7.4 5-10.4 2.2-2.6 4.3-5.3 4.7-9.5.1-.9 1.2-1.2 1.8-.5 4.3 5 9.8 10.7 9.8 19.2C43.8 51 39.5 56 33.5 56Z" fill="url(#flameInner)" opacity=".96"/>
-          </svg>
-        </div>
-        <div>
-          <h1>Книга рецептов</h1>
-          <p class="subtitle">Мангал, казан, овощи, всё к столу — и книга пополняется. Ввёл вес или число людей — получил расчёт.</p>
-        </div>
-      </div>
+    <header class="title">
+      <div class="smallcaps">личная кухня</div>
+      <h1>Книга рецептов</h1>
+      <p>Мангал, казан, овощи и всё к столу. Впиши вес или число гостей — книга сама пересчитает.</p>
+    </header>
+    <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
 
-      <div class="inputCard">
-        <div class="inputTop">
-          <label class="label" for="weight" id="inputLabel">Вес мяса</label>
-          <div class="seg" role="group" aria-label="режим расчёта">
-            <button type="button" data-mode="kg" class="on">по весу</button>
-            <button type="button" data-mode="people">на людей</button>
-          </div>
-        </div>
-        <div class="weightWrap">
-          <input id="weight" type="number" min="0" max="100" step="0.05" inputmode="decimal" />
-          <div class="unit" id="inputUnit">кг</div>
-        </div>
-        <div class="quickWeights" id="quick" aria-label="быстрый выбор"></div>
-        <div class="toggleRow">
-          <div class="toggleText">Показывать диапазон, а не одну середину</div>
-          <label class="switch" aria-label="режим диапазона">
-            <input id="rangeMode" type="checkbox" checked />
-            <span class="slider"></span>
-          </label>
+    <section class="card" aria-label="Расчёт">
+      <div class="inputTop">
+        <label class="label smallcaps" for="weight" id="inputLabel">Вес мяса</label>
+        <div class="seg" role="group" aria-label="режим расчёта">
+          <button type="button" data-mode="kg" class="on">по весу</button>
+          <button type="button" data-mode="people">на гостей</button>
         </div>
       </div>
+      <div class="weightWrap">
+        <input id="weight" type="number" min="0" max="100" step="0.05" inputmode="decimal" />
+        <div class="unit" id="inputUnit">кг</div>
+      </div>
+      <div class="quickWeights" id="quick" aria-label="быстрый выбор"></div>
+      <label class="check">
+        <input id="rangeMode" type="checkbox" checked />
+        <span class="box" aria-hidden="true"></span>
+        <span>Показывать диапазон «от — до»</span>
+      </label>
     </section>
 
-    <div class="picker closed" id="picker">
-    <div class="pickBar">
+    <nav class="picker closed" id="picker" aria-label="Оглавление">
+      <div class="tocHead"><span class="smallcaps">Оглавление</span></div>
       <div class="tabs" id="tabs"></div>
-      <input class="search" id="search" type="search" placeholder="Найти рецепт: курица, плов, рыба…" autocomplete="off" />
-    </div>
-    <div class="chips" id="chips"></div>
-    </div>
+      <input class="search" id="search" type="search" placeholder="Найти: курица, плов, кукуруза…" autocomplete="off" />
+      <div class="toc" id="chips"></div>
+    </nav>
 
-    <section id="output" aria-live="polite"></section>
+    <article id="output" aria-live="polite"></article>
 
-    <p class="footerNote">Соль в шашлыке — от веса мяса (около 1%). В казане — по вкусу зирвака или бульона: перед рисом зирвак должен быть чуть пересолен. Воду в плове проверяй по уровню над рисом, а не только по цифре.</p>
+    <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
+    <p class="footerNote" style="margin-top:0">Соль в шашлыке — около 1% от веса мяса. В казане солят по вкусу зирвака или бульона: перед рисом зирвак должен быть чуть пересолен. Воду в плове проверяй по уровню над рисом, а не только по цифре.</p>
   </main>
   <div class="toast" id="toast"></div>
 
@@ -377,7 +306,7 @@
       const r = recipes[state.recipe], k = kindOf(r);
       document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.mode === state.mode));
       if(state.mode === 'people'){
-        $('inputLabel').textContent = 'Человек';
+        $('inputLabel').textContent = 'Сколько гостей';
         $('inputUnit').textContent = 'чел';
         weightInput.step = '1';
         weightInput.value = state.people || '';
@@ -401,7 +330,7 @@
       $('picker').classList.toggle('closed', !pickerOpen);
       if(!pickerOpen){
         const r = recipes[state.recipe];
-        chips.innerHTML = `<button class="chip active" data-open="1"><span>${r.emoji}</span><span>${r.title}<small>${r.short}</small></span><span class="chg">Сменить ▾</span></button>`;
+        chips.innerHTML = `<button class="current" data-open="1"><span class="t">${r.title}</span><span class="chg">сменить ▾</span></button>`;
         return;
       }
       const q = state.q.trim().toLowerCase();
@@ -409,31 +338,34 @@
         if(q) return (r.title + ' ' + r.short + ' ' + r.base.name + ' ' + r.ingredients.map(i => i.name).join(' ')).toLowerCase().includes(q);
         return state.cat === 'all' || r.cat === state.cat;
       });
+      const showChapter = q || state.cat === 'all';
       chips.innerHTML = list.length ? list.map(([key, r]) => `
-        <button class="chip ${state.recipe === key ? 'active' : ''}" data-recipe="${key}">
-          <span>${r.emoji}</span>
-          <span>${r.title}<small>${r.short}</small></span>
+        <button class="${state.recipe === key ? 'active' : ''}" data-recipe="${key}">
+          <span class="mark">${state.recipe === key ? '▸' : ''}</span>
+          <span><span class="t">${r.title}</span><span class="s">${r.short}</span></span>
+          ${showChapter ? `<span class="chapter">${catName(r.cat)}</span>` : ''}
         </button>`).join('') : '<div class="empty">Ничего не нашлось</div>';
     }
+
+    const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
+    function guests(n){ n = Math.round(n); const a = n % 10, b = n % 100;
+      return n + ' ' + (a === 1 && b !== 11 ? 'гостя' : 'гостей'); }
 
     /* ---------- практичные цифры ---------- */
     const KAZANS = [5,6,8,10,12,15,18,20,22,25,30,35,40,50,60,80,100];
     function facts(r, w){
       const out = [];
-      const ppl = w / r.pp;
-      if(state.mode === 'people') out.push(`👥 ${num(readInput(),0)} чел`);
-      else out.push(`👥 ≈ ${Math.max(1, Math.round(ppl))} чел`);
       const counted = kindOf(r).unit === 'шт';
-      if(r.skewer === 'grate') out.push('🔲 на решетке');
-      else if(r.skewer && !counted) out.push(`🗡️ ≈ ${Math.max(1, Math.ceil(w*1000 / r.skewer))} шампуров`);
+      if(r.skewer === 'grate') out.push('жарить на решётке');
+      else if(r.skewer && !counted) out.push(`около ${Math.max(1, Math.ceil(w*1000 / r.skewer))} шампуров`);
       if(!counted && (r.cat === 'grill' || (r.cat === 'fish' && r.skewer))){
         const lo = Math.max(2, Math.round(w*0.8*2)/2), hi = Math.max(2.5, Math.round(w*1.0*2)/2);
-        out.push(`⚫ уголь ${num(lo)}–${num(hi)} кг`);
+        out.push(`угля ${num(lo)}–${num(hi)} кг`);
       }
       if(r.kazan){
         const need = r.kazan(w);
         const size = KAZANS.find(s => s >= need) || Math.ceil(need/10)*10;
-        out.push(`🥘 казан от ${size} л`);
+        out.push(`казан от ${size} л`);
       }
       return out;
     }
@@ -445,60 +377,50 @@
       if(!w){ output.innerHTML = ''; return; }
 
       const baseW = roundBase(k, w);
-      const head = state.mode === 'people'
-        ? `${num(readInput(),0)} чел → ${num(baseW)} ${k.per}`
-        : `Расчет на ${num(roundBase(k, w))} ${k.per}`;
+      const baseTxt = `${num(baseW)} ${k.per}`;
+      const yieldTxt = state.mode === 'people'
+        ? `На <b>${guests(readInput())}</b> — ${baseTxt}`
+        : `Расчёт на <b>${baseTxt}</b> — примерно на ${guests(Math.max(1, w / r.pp))}`;
+      const f = facts(r, w);
 
-      const rows = [];
-      rows.push(`
-        <button class="ingredient base ${done.has('base') ? 'done' : ''}" data-ing="base">
-          <div class="ico">${done.has('base') ? '✓' : r.base.icon}</div>
-          <div><div class="ingName">${r.base.name}</div><div class="ingNote">${r.base.note}</div></div>
-          <div class="amount">${num(baseW)}<small>${baseUnit(k)}</small></div>
-        </button>`);
+      const row = (key, name, note, qty, unit, extra='') => `
+        <button class="ing ${extra} ${done.has(key) ? 'done' : ''}" data-ing="${key}">
+          <div class="line"><span class="name">${name}</span><span class="lead"></span><span class="qty">${qty}<small>${unit}</small></span></div>
+          ${note ? `<div class="note">${note}</div>` : ''}
+        </button>`;
+      const rows = [row('base', r.base.name, r.base.note, num(baseW), baseUnit(k), 'base')];
       r.ingredients.forEach((item, i) => {
         const s = scaleItem(item, w);
-        rows.push(`
-          <button class="ingredient ${done.has(i) ? 'done' : ''}" data-ing="${i}">
-            <div class="ico">${done.has(i) ? '✓' : item.icon}</div>
-            <div>
-              <div class="ingName">${item.name}${item.opt ? '<span class="opt">по желанию</span>' : ''}</div>
-              ${item.note ? `<div class="ingNote">${item.note}</div>` : ''}
-            </div>
-            <div class="amount">${amountStr(s)}<small>${s.unit}</small></div>
-          </button>`);
+        rows.push(row(i, item.name + (item.opt ? '<span class="opt">по желанию</span>' : ''), item.note, amountStr(s), s.unit));
       });
 
       const tl = r.timeLabels || {};
       output.innerHTML = `
-        <div class="resultHead">
-          <div>
-            <div class="resultTitle">${r.title}</div>
-            <div class="ingNote">${head} · базовые пропорции на 1 ${k.per}</div>
+        <div class="page">
+          <div class="smallcaps chapterLine">${catName(r.cat)}${r.badge.toLowerCase() !== catName(r.cat).toLowerCase() ? ' · ' + r.badge : ''}</div>
+          <h1 class="recipeTitle">${r.title}</h1>
+          <div class="yield">${yieldTxt}</div>
+          ${f.length ? `<div class="facts">${f.map(x => `<span>${x}</span>`).join('')}</div>` : ''}
+          <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
+
+          <h2>Понадобится</h2>
+          <div class="ings">${rows.join('')}</div>
+          <div class="listTools">
+            <span class="hint">Коснись строки — отметить, что уже положил</span>
+            <button class="btn" id="shareBtn">Список покупок</button>
           </div>
-          <div class="badge">${r.badge}</div>
-        </div>
-        <div class="facts">${facts(r, w).map(f => `<span class="fact">${f}</span>`).join('')}</div>
-        <div class="grid">${rows.join('')}</div>
-        <div class="listTools">
-          <span class="hint">Нажми на строку — отметить, что уже положил</span>
-          <button class="btn" id="shareBtn">📋 Список</button>
-        </div>
-        <div class="recipeBox">
-          <div class="section">
-            <div class="sectionTitle">⏱️ Время</div>
-            <div class="times">
-              <div class="timeCard"><b>${r.times.prep}</b><span>${tl.prep || 'подготовка'}</span></div>
-              <div class="timeCard"><b>${r.times.marinade}</b><span>${tl.marinade || 'маринад'}</span></div>
-              <div class="timeCard"><b>${r.times.cook}</b><span>${tl.cook || 'жарка'}</span></div>
-            </div>
+
+          <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
+          <div class="times">
+            <div><b>${r.times.prep}</b><span class="smallcaps">${tl.prep || 'подготовка'}</span></div>
+            <div><b>${r.times.marinade}</b><span class="smallcaps">${tl.marinade || 'маринад'}</span></div>
+            <div><b>${r.times.cook}</b><span class="smallcaps">${tl.cook || 'жарка'}</span></div>
           </div>
-          <div class="section">
-            <div class="sectionTitle">🧠 Технология</div>
-            <ol class="steps">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-          </div>
+
+          <h2 style="margin-top:22px">Приготовление</h2>
+          <ol class="steps">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+          ${r.rule ? `<aside class="margin"><span class="smallcaps">заметка на полях</span>${r.rule}</aside>` : ''}
         </div>
-        ${r.rule ? `<div class="rule"><b>Правило:</b> ${r.rule}</div>` : ''}
       `;
     }
 
@@ -550,7 +472,7 @@
       state.recipe = b.dataset.recipe; done.clear();
       pickerOpen = false; state.q = ''; search.value = '';
       renderTabs(); renderChips(); syncInput(); render(); save();
-      $('picker').scrollIntoView({ behavior:'smooth', block:'start' });
+      output.scrollIntoView({ behavior:'smooth', block:'start' });
     });
     document.querySelector('.seg').addEventListener('click', e => {
       const b = e.target.closest('[data-mode]'); if(!b || b.dataset.mode === state.mode) return;

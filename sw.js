@@ -1,5 +1,17 @@
-const CACHE = 'recepty-v9';
-const ASSETS = ['./', './index.html', './recipes.js', './manifest.json', './icons/icon-192.png', './icons/icon-512.png'];
+const CACHE = 'recepty-v10';
+const ASSETS = ['./', './index.html', './recipes.js', './manifest.json', './icons/icon-192.png', './icons/icon-512.png',
+  './fonts/lora-cyrillic-400-italic.woff2',
+  './fonts/lora-cyrillic-400-normal.woff2',
+  './fonts/lora-cyrillic-600-normal.woff2',
+  './fonts/lora-cyrillic-700-normal.woff2',
+  './fonts/lora-latin-400-italic.woff2',
+  './fonts/lora-latin-400-normal.woff2',
+  './fonts/lora-latin-600-normal.woff2',
+  './fonts/lora-latin-700-normal.woff2',
+  './fonts/pt-sans-cyrillic-400-normal.woff2',
+  './fonts/pt-sans-cyrillic-700-normal.woff2',
+  './fonts/pt-sans-latin-400-normal.woff2',
+  './fonts/pt-sans-latin-700-normal.woff2'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
