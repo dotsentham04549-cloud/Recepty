@@ -1,8 +1,8 @@
 {
   "id": "./?app=recepty-1",
-  "name": "Мангал и казан",
-  "short_name": "Мангал",
-  "description": "Калькулятор и рецепты: шашлык, люля, плов, казан, рыба, овощи, соусы",
+  "name": "Книга рецептов",
+  "short_name": "Рецепты",
+  "description": "Личная книга рецептов с калькулятором: мангал, казан, овощи, соусы",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#100f0c",
