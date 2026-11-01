@@ -125,7 +125,7 @@
     .empty{font-family:var(--serif); font-style:italic; color:var(--muted); padding:12px 2px}
 
     /* ---------- страница рецепта ---------- */
-    #output{scroll-margin-top:16px}
+    #page{scroll-margin-top:16px}
     .page{margin-top:30px}
     .chapterLine{color:var(--accent)}
     .recipeTitle{font-family:var(--serif); font-weight:700; font-size:31px; line-height:1.12; letter-spacing:-.3px; margin:6px 0 8px}
@@ -167,7 +167,15 @@
 
     .margin{margin-top:8px; padding:12px 14px 12px 16px; background:var(--oliveSoft); border-left:3px solid var(--olive); border-radius:0 10px 10px 0; font-family:var(--serif); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--ink)}
     .margin .smallcaps{display:block; font-style:normal; color:var(--olive); margin-bottom:4px}
-    .footerNote{margin:26px 6px 0; font-family:var(--serif); font-style:italic; color:var(--muted); font-size:13.5px; line-height:1.5; text-align:center}
+    .colophon{margin-top:40px; text-align:center}
+    .colophon p{margin:6px 0 0; font-family:var(--serif); font-style:italic; color:var(--muted); font-size:15px}
+    .lede{font-family:var(--serif); font-style:italic; color:var(--ink2); font-size:16px; margin:0}
+    #calcCard,.orderCard{margin-top:18px}
+    #calcCard .yield{margin-top:14px}
+    #calcCard .yield:empty,#calcCard .facts:empty{display:none}
+    .h3{font-family:var(--serif); font-weight:600; font-size:18px; margin:22px 0 2px; display:flex; justify-content:space-between; align-items:baseline; gap:10px}
+    .h3 small{font-family:var(--serif); font-style:italic; font-weight:400; font-size:14px; color:var(--muted)}
+    .pantry{font-family:var(--serif); font-style:italic; font-size:14px; color:var(--muted); margin-top:8px}
 
     /* ---------- пицца ---------- */
     .porder{display:grid; grid-template-columns:1fr auto auto; grid-template-areas:"type step del" "size step del"; gap:4px 12px; align-items:center; padding:10px 0; border-bottom:1px dotted var(--rule)}
@@ -213,41 +221,48 @@
     <header class="title">
       <div class="smallcaps">личная кухня</div>
       <h1>Книга рецептов</h1>
-      <p>Мангал, казан, овощи, пицца и всё к столу. Впиши вес или число гостей — книга сама пересчитает.</p>
+      <p>Мангал, казан, выпечка и всё к столу — с пересчётом на вес и число гостей.</p>
     </header>
     <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
-
-    <section class="card" id="calcCard" aria-label="Расчёт">
-      <div class="inputTop">
-        <label class="label smallcaps" for="weight" id="inputLabel">Вес мяса</label>
-        <div class="seg" role="group" aria-label="режим расчёта">
-          <button type="button" data-mode="kg" class="on">по весу</button>
-          <button type="button" data-mode="people">на гостей</button>
-        </div>
-      </div>
-      <div class="weightWrap">
-        <input id="weight" type="number" min="0" max="100" step="0.05" inputmode="decimal" />
-        <div class="unit" id="inputUnit">кг</div>
-      </div>
-      <div class="quickWeights" id="quick" aria-label="быстрый выбор"></div>
-      <label class="check">
-        <input id="rangeMode" type="checkbox" checked />
-        <span class="box" aria-hidden="true"></span>
-        <span>Показывать диапазон «от — до»</span>
-      </label>
-    </section>
 
     <nav class="picker closed" id="picker" aria-label="Оглавление">
       <div class="tocHead"><span class="smallcaps">Оглавление</span></div>
       <div class="tabs" id="tabs"></div>
-      <input class="search" id="search" type="search" placeholder="Найти: курица, плов, кукуруза…" autocomplete="off" />
+      <input class="search" id="search" type="search" placeholder="Найти: курица, плов, лагман…" autocomplete="off" />
       <div class="toc" id="chips"></div>
     </nav>
 
-    <article id="output" aria-live="polite"></article>
+    <article class="page" id="page" aria-live="polite">
+      <header id="pageHead"></header>
+      <section class="card" id="calcCard" aria-label="Сколько готовим">
+        <div class="inputTop">
+          <label class="label smallcaps" for="weight" id="inputLabel">Вес мяса</label>
+          <div class="seg" role="group" aria-label="режим расчёта">
+            <button type="button" data-mode="kg" class="on">по весу</button>
+            <button type="button" data-mode="people">на гостей</button>
+          </div>
+        </div>
+        <div class="weightWrap">
+          <input id="weight" type="number" min="0" max="100" step="0.05" inputmode="decimal" />
+          <div class="unit" id="inputUnit">кг</div>
+        </div>
+        <div class="quickWeights" id="quick" aria-label="быстрый выбор"></div>
+        <div class="yield" id="yieldLine"></div>
+        <div class="facts" id="factsLine"></div>
+        <label class="check">
+          <input id="rangeMode" type="checkbox" checked />
+          <span class="box" aria-hidden="true"></span>
+          <span>Показывать диапазон «от — до»</span>
+        </label>
+      </section>
+      <div id="output"></div>
+    </article>
 
-    <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
-    <p class="footerNote" style="margin-top:0">Соль в шашлыке — около 1% от веса мяса. В казане солят по вкусу зирвака или бульона: перед рисом зирвак должен быть чуть пересолен. Воду в плове проверяй по уровню над рисом, а не только по цифре.</p>
+    <footer class="colophon">
+      <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
+      <div class="smallcaps">Книга рецептов · личная кухня</div>
+      <p>Приятного аппетита</p>
+    </footer>
   </main>
   <div class="toast" id="toast"></div>
 
@@ -414,55 +429,56 @@
           ${note ? `<div class="note">${note}</div>` : ''}
         </button>`;
     }
+    const ORN = document.querySelector('.ornament').outerHTML;
+    function chapterLabel(r){
+      const c = catName(r.cat);
+      return c + (r.badge && r.badge.toLowerCase() !== c.toLowerCase() ? ' · ' + r.badge : '');
+    }
+    function timesHTML(t, tl = {}){
+      return `<div class="times">
+        <div><b>${t.prep}</b><span class="smallcaps">${tl.prep || 'подготовка'}</span></div>
+        <div><b>${t.marinade}</b><span class="smallcaps">${tl.marinade || 'маринад'}</span></div>
+        <div><b>${t.cook}</b><span class="smallcaps">${tl.cook || 'жарка'}</span></div>
+      </div>`;
+    }
+    const stepsHTML = (list, cls = '') => `<ol class="steps ${cls}">${list.map(s => `<li>${s}</li>`).join('')}</ol>`;
+    const noteHTML = text => text ? `<aside class="margin"><span class="smallcaps">заметка на полях</span>${text}</aside>` : '';
+
     function render(){
       const r = recipes[state.recipe];
+      $('pageHead').innerHTML = `
+        <div class="smallcaps chapterLine">${chapterLabel(r)}</div>
+        <h1 class="recipeTitle">${r.title}</h1>
+        <p class="lede">${r.short}</p>`;
       if(r.special === 'pizza'){ renderPizza(r); return; }
-      const k = kindOf(r);
-      const w = baseKg(r);
-      if(!w){ output.innerHTML = ''; return; }
 
+      const k = kindOf(r), w = baseKg(r);
+      if(!w){ $('yieldLine').innerHTML = ''; $('factsLine').innerHTML = ''; output.innerHTML = ''; return; }
       const baseW = roundBase(k, w);
-      const baseTxt = `${num(baseW)} ${k.per}`;
-      const yieldTxt = state.mode === 'people'
-        ? `На <b>${guests(readInput())}</b> — ${baseTxt}`
-        : `Расчёт на <b>${baseTxt}</b> — примерно на ${guests(Math.max(1, w / r.pp))}`;
-      const f = facts(r, w);
+      $('yieldLine').innerHTML = state.mode === 'people'
+        ? `На <b>${guests(readInput())}</b> — ${num(baseW)} ${k.per}`
+        : `Примерно на <b>${guests(Math.max(1, w / r.pp))}</b>`;
+      $('factsLine').innerHTML = facts(r, w).map(x => `<span>${x}</span>`).join('');
 
-      const row = bookRow;
-      const rows = [row('base', r.base.name, r.base.note, num(baseW), baseUnit(k), 'base')];
+      const rows = [bookRow('base', r.base.name, r.base.note, num(baseW), baseUnit(k), 'base')];
       r.ingredients.forEach((item, i) => {
         const s = scaleItem(item, w);
-        rows.push(row(i, item.name + (item.opt ? '<span class="opt">по желанию</span>' : ''), item.note, amountStr(s), s.unit));
+        rows.push(bookRow(i, item.name + (item.opt ? '<span class="opt">по желанию</span>' : ''), item.note, amountStr(s), s.unit));
       });
 
-      const tl = r.timeLabels || {};
       output.innerHTML = `
-        <div class="page">
-          <div class="smallcaps chapterLine">${catName(r.cat)}${r.badge.toLowerCase() !== catName(r.cat).toLowerCase() ? ' · ' + r.badge : ''}</div>
-          <h1 class="recipeTitle">${r.title}</h1>
-          <div class="yield">${yieldTxt}</div>
-          ${f.length ? `<div class="facts">${f.map(x => `<span>${x}</span>`).join('')}</div>` : ''}
-          <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
-
-          <h2>Понадобится</h2>
-          <div class="ings">${rows.join('')}</div>
-          <div class="listTools">
-            <span class="hint">Коснись строки — отметить, что уже положил</span>
-            <button class="btn" id="shareBtn">Список покупок</button>
-          </div>
-
-          <div class="ornament" aria-hidden="true"><span><svg viewBox="0 0 40 14" width="40" height="14" aria-hidden="true"><path d="M20 2c2.5 2.6 2.5 7.4 0 10-2.5-2.6-2.5-7.4 0-10Z" fill="currentColor"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="31" cy="7" r="1.6" fill="currentColor"/></svg></span></div>
-          <div class="times">
-            <div><b>${r.times.prep}</b><span class="smallcaps">${tl.prep || 'подготовка'}</span></div>
-            <div><b>${r.times.marinade}</b><span class="smallcaps">${tl.marinade || 'маринад'}</span></div>
-            <div><b>${r.times.cook}</b><span class="smallcaps">${tl.cook || 'жарка'}</span></div>
-          </div>
-
-          <h2 style="margin-top:22px">Приготовление</h2>
-          <ol class="steps">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-          ${r.rule ? `<aside class="margin"><span class="smallcaps">заметка на полях</span>${r.rule}</aside>` : ''}
+        ${ORN}
+        <h2>Понадобится</h2>
+        <div class="ings">${rows.join('')}</div>
+        <div class="listTools">
+          <span class="hint">Коснись строки — отметить, что уже положил</span>
+          <button class="btn" id="shareBtn">Отправить список</button>
         </div>
-      `;
+        ${ORN}
+        ${timesHTML(r.times, r.timeLabels)}
+        <h2 style="margin-top:22px">Приготовление</h2>
+        ${stepsHTML(r.steps)}
+        ${noteHTML(r.rule)}`;
     }
 
     /* ---------- пицца: несколько пицц в одном замесе ---------- */
@@ -499,135 +515,119 @@
       return { dough, tomato, white, total, trays, rounds, toppings, cards, hasPepperoni, hasCarbonara, f,
                flour:550*f, eggs: total ? Math.max(1, Math.round(f)) : 0 };
     }
-    function pizzaLists(c){
-      const buy = [], home = [];
+    function pizzaList(c){
+      const L = [];
+      if(!c.total) return L;
       const tp = Object.assign({}, c.toppings);
       if(c.white) tp.parm = (tp.parm || 0) + 30*(c.white/200);
-      if(c.tomato){ const j = Math.ceil(c.tomato/300); buy.push({ name:'Томаты в собственном соку', qty:String(j), unit:plural(j,'банка','банки','банок'), note:'по 400 г' }); }
-      ['mozz','second','cheddar','parm','pepperoni','ham','sausages','bacon','mince','tomatoFresh','pepper','redOnion','onion','pickles','basil','mustard']
-        .forEach(k => { if(tp[k]) buy.push(pItem(k, tp[k])); });
-      if(c.white) buy.push({ name:'Молоко 1,5–2,5%', qty:nf.format(prg(c.white)), unit:'мл', note:'' });
       const yolks = tp.yolks ? Math.max(1, Math.round(tp.yolks)) : 0;
-      if(c.total){
-        home.push({ name:'Мука', qty:PG(c.flour + (c.white ? 15*c.white/200 : 0)), unit:'г', note:'' });
-        home.push({ name:'Дрожжи сухие активные', qty:String(Math.max(1, Math.ceil(c.f - 0.05))), unit:'пак.', note:'по 11 г' });
-        home.push({ name:'Яйца', qty:String(c.eggs + yolks), unit:'шт.', note:yolks ? `в тесто ${c.eggs}, желтков ${yolks}` : '' });
-        const oil = 6*c.f + (c.tomato ? c.tomato/300 : 0) + c.trays*2 + c.rounds*1;
-        home.push({ name:'Масло подсолнечное', qty:pfrac(oil), unit:'ст. л.', note:'с учётом смазки противня' });
-        home.push({ name:'Сахар, соль', qty:'', unit:'', note:'проверить' });
-        home.push({ name:'Чеснок сухой, орегано', qty:'', unit:'', note:'проверить' });
-        if(c.hasPepperoni) home.push({ name:'Копчёная паприка, хлопья чили', qty:'', unit:'', note:'если вместо пепперони салями' });
-        if(c.white || c.hasCarbonara) home.push({ name:'Чёрный перец', qty:'', unit:'', note:'проверить' });
-      }
-      return { buy, home };
+      L.push({ name:'Мука', qty:PG(c.flour + (c.white ? 15*c.white/200 : 0)), unit:'г', note:'' });
+      L.push({ name:'Дрожжи сухие активные', qty:String(Math.max(1, Math.ceil(c.f - 0.05))), unit:'пак.', note:'по 11 г' });
+      L.push({ name:'Яйца', qty:String(c.eggs + yolks), unit:'шт.', note:yolks ? `в тесто ${c.eggs}, желтков ${yolks}` : '' });
+      L.push({ name:'Масло подсолнечное', qty:pfrac(6*c.f + (c.tomato ? c.tomato/300 : 0) + c.trays*2 + c.rounds), unit:'ст. л.', note:'с учётом смазки формы' });
+      if(c.tomato){ const tom = 400*c.tomato/300, j = Math.ceil(tom/400);
+        L.push({ name:'Томаты в собственном соку', qty:PG(tom), unit:'г', note:j > tom/400 + 0.01 ? `${j} ${plural(j,'банка','банки','банок')} по 400 г, остаток — в холодильник` : `${j} ${plural(j,'банка','банки','банок')} по 400 г` }); }
+      if(c.white) L.push({ name:'Молоко 1,5–2,5%', qty:nf.format(prg(c.white)), unit:'мл', note:'' });
+      ['mozz','second','cheddar','parm','pepperoni','ham','sausages','bacon','mince','tomatoFresh','pepper','redOnion','onion','pickles','basil','mustard']
+        .forEach(k => { if(tp[k]) L.push(pItem(k, tp[k])); });
+      return L;
     }
     function pizzaText(){
-      const c = pizzaCompute(), L = pizzaLists(c);
-      const line = x => '— ' + x.name + (x.qty ? ': ' + x.qty + ' ' + x.unit : '') + (x.note ? ' (' + x.note + ')' : '');
+      const c = pizzaCompute();
       const what = c.cards.map(x => x.p.name + (x.row.count > 1 ? ' ×' + x.row.count : '') + ', ' + x.s.name.toLowerCase()).join('; ');
-      return 'Пицца: ' + what + '\n\nКупить:\n' + L.buy.map(line).join('\n') + '\n\nПроверить дома:\n' + L.home.map(line).join('\n');
+      return 'Пицца: ' + what + '\n' + pizzaList(c).map(x => '• ' + x.name + ' — ' + x.qty + ' ' + x.unit + (x.note ? ' (' + x.note + ')' : '')).join('\n');
     }
     function renderPizza(r){
-      const c = pizzaCompute(), L = pizzaLists(c);
+      $('yieldLine').innerHTML = ''; $('factsLine').innerHTML = '';
+      const c = pizzaCompute();
       const sel = (i, field, cur, opts) => `<select class="${field === 'type' ? 'pt' : 'ps'}" data-pi="${i}" data-pf="${field}" aria-label="${field === 'type' ? 'Пицца' : 'Размер'}">` +
         opts.map(([v, n]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${n}</option>`).join('') + '</select>';
       const types = PIZZA.order.map(k => [k, PIZZA.types[k].name]);
       const sizes = Object.keys(PIZZA.sizes).map(k => [k, PIZZA.sizes[k].name]);
-      const order = state.pizza.map((p, i) => `
-        <div class="porder">
-          ${sel(i, 'type', p.type, types)}
-          ${sel(i, 'size', p.size, sizes)}
-          <div class="stepper"><button data-pi="${i}" data-pd="-1" aria-label="Меньше">−</button><b>${p.count}</b><button data-pi="${i}" data-pd="1" aria-label="Больше">+</button></div>
-          <button class="pdel" data-pdel="${i}" aria-label="Убрать">×</button>
-        </div>`).join('');
       const R = (key, x) => bookRow(key, x.name, x.note, x.qty, x.unit);
-      const orn = document.querySelector('.ornament').outerHTML;
 
       let html = `
-        <div class="page">
-          <div class="smallcaps chapterLine">Выпечка</div>
-          <h1 class="recipeTitle">${r.title}</h1>
-          <div class="yield">${c.total ? `<b>${c.total} ${plural(c.total,'пицца','пиццы','пицц')}</b> — теста ${PG(c.dough)} г` : 'Добавь хотя бы одну пиццу'}</div>
-          ${c.total ? `<div class="facts">${c.tomato ? `<span>томатного соуса ${PG(c.tomato)} г</span>` : ''}${c.white ? `<span>белого соуса ${PG(c.white)} г</span>` : ''}<span>духовка 250–270 °C</span></div>` : ''}
-          ${orn}
-          <h2>Что печём</h2>
-          ${order}
-          <button class="addPizza" id="addPizza">+ добавить пиццу</button>`;
+        <section class="card orderCard">
+          <div class="inputTop"><span class="label smallcaps">Что печём</span></div>
+          ${state.pizza.map((p, i) => `
+            <div class="porder">
+              ${sel(i, 'type', p.type, types)}
+              ${sel(i, 'size', p.size, sizes)}
+              <div class="stepper"><button data-pi="${i}" data-pd="-1" aria-label="Меньше">−</button><b>${p.count}</b><button data-pi="${i}" data-pd="1" aria-label="Больше">+</button></div>
+              <button class="pdel" data-pdel="${i}" aria-label="Убрать">×</button>
+            </div>`).join('')}
+          <button class="addPizza" id="addPizza">+ добавить пиццу</button>
+          ${c.total ? `<div class="yield" style="margin-top:12px"><b>${c.total} ${plural(c.total,'пицца','пиццы','пицц')}</b> — теста ${PG(c.dough)} г</div>` : ''}
+        </section>`;
 
-      if(c.total){
-        const f = c.f, portions = c.cards.map(x => x.s.name + ' — ' + PG(x.d) + ' г' + (x.row.count > 1 ? ' × ' + x.row.count : '')).join('; ');
-        html += `${orn}
-          <h2>Тесто <small>всего ${PG(c.dough)} г</small></h2>
+      if(!c.total){ output.innerHTML = html; return; }
+      const f = c.f;
+
+      html += `
+        ${ORN}
+        <h2>Понадобится</h2>
+        <div class="ings">${pizzaList(c).map((x, i) => R('b' + i, x)).join('')}</div>
+        <div class="pantry">Сахар, соль, сухой чеснок и орегано — из запасов.</div>
+        <div class="listTools">
+          <span class="hint">Коснись строки — отметить, что уже положил</span>
+          <button class="btn" id="shareBtn">Отправить список</button>
+        </div>
+        ${ORN}
+        ${timesHTML({ prep:'20 мин', marinade:'1–1,5 ч', cook:'13–17 мин' }, { marinade:'подъём теста', cook:'выпечка' })}
+
+        <h2 style="margin-top:22px">Приготовление</h2>
+        <div class="h3">Тесто <small>${PG(c.dough)} г</small></div>
+        ${[
+          { name:'Мука', qty:PG(c.flour), unit:'г', note:'≈ ' + pfrac(c.flour/160) + ' стакана' },
+          { name:'Вода тёплая, 35–40 °C', qty:nf.format(prg(250*f)), unit:'мл', note:'' },
+          { name:'Дрожжи сухие активные', qty:PG(11*f), unit:'г', note:'' },
+          { name:'Яйцо', qty:String(c.eggs), unit:'шт.', note:'' },
+          { name:'Масло растительное', qty:pfrac(6*f), unit:'ст. л.', note:'' },
+          { name:'Сахар', qty:pfrac(3*f), unit:'ч. л.', note:'' },
+          { name:'Соль', qty:pfrac(f), unit:'ч. л.', note:'' }
+        ].map((x, i) => R('d' + i, x)).join('')}
+        ${stepsHTML(PIZZA.dough.steps.slice(0, -1).concat('Разделить на заготовки: ' + c.cards.map(x => PG(x.d) + ' г' + (x.row.count > 1 ? ' × ' + x.row.count : '')).join(', ') + '.'), 'small')}`;
+
+      if(c.tomato){
+        const t = c.tomato/300;
+        html += `<div class="h3">Томатный соус <small>${PG(c.tomato)} г</small></div>
           ${[
-            { name:'Мука', qty:PG(c.flour), unit:'г', note:'≈ ' + pfrac(c.flour/160) + ' стакана; часть оставить на подсыпку' },
-            { name:'Дрожжи сухие активные', qty:PG(11*f), unit:'г', note:pfrac(f) + ' пакетика по 11 г' },
-            { name:'Яйцо', qty:String(c.eggs), unit:'шт.', note:'' },
-            { name:'Масло растительное', qty:PG(75*f), unit:'г', note:pfrac(6*f) + ' ст. л.' },
-            { name:'Сахар', qty:PG(12*f), unit:'г', note:pfrac(3*f) + ' ч. л.' },
-            { name:'Соль', qty:PG(7*f), unit:'г', note:pfrac(f) + ' ч. л.' },
-            { name:'Вода тёплая, 35–40 °C', qty:nf.format(prg(250*f)), unit:'мл', note:'' }
-          ].map((x, i) => R('d' + i, x)).join('')}
-          <ol class="steps small" style="margin-top:14px">${PIZZA.dough.steps.map(s => `<li>${s}</li>`).join('')}<li>Заготовки: ${portions}.</li></ol>`;
-
-        html += `${orn}<h2>Соусы</h2>
-          <p class="intro" style="margin:0 0 4px">Перед тем как намазывать, соус обязательно остудить: горячий сделает тесто сырым.</p>`;
-        if(c.tomato){
-          const t = c.tomato/300, tom = 400*t;
-          html += `<div class="sub">Томатный · нужно ${PG(c.tomato)} г</div>
-            ${[
-              { name:'Томаты в собственном соку или пассата', qty:PG(tom), unit:'г', note:Math.ceil(tom/400) + ' ' + plural(Math.ceil(tom/400),'банка','банки','банок') + ' по 400 г' },
-              { name:'Масло подсолнечное', qty:pfrac(t), unit:'ст. л.', note:'' },
-              { name:'Чеснок сухой', qty:pfrac(0.5*t), unit:'ч. л.', note:'или 2 зубчика свежего на банку' },
-              { name:'Соль', qty:pfrac(0.75*t), unit:'ч. л.', note:'' },
-              { name:'Сахар', qty:pfrac(0.5*t), unit:'ч. л.', note:'' },
-              { name:'Орегано', qty:pfrac(t), unit:'ч. л.', note:'' }
-            ].map((x, i) => R('t' + i, x)).join('')}
-            <ol class="steps small" style="margin-top:12px">${PIZZA.sauces.tomato.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
-        }
-        if(c.white){
-          const w = c.white/200;
-          html += `<div class="sub">Белый сливочный · нужно ${PG(c.white)} г</div>
-            ${[
-              { name:'Молоко 1,5–2,5%', qty:nf.format(prg(200*w)), unit:'мл', note:'' },
-              { name:'Мука', qty:PG(15*w), unit:'г', note:pfrac(w) + ' ст. л. с горкой' },
-              { name:'Чеснок сухой', qty:pfrac(0.375*w), unit:'ч. л.', note:'' },
-              { name:'Пармезан или твёрдый сыр', qty:PG(30*w), unit:'г', note:'тёртый' },
-              { name:'Соль, чёрный перец', qty:'', unit:'', note:'по вкусу' }
-            ].map((x, i) => R('w' + i, x)).join('')}
-            <ol class="steps small" style="margin-top:12px">${PIZZA.sauces.white.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
-        }
-
-        c.cards.forEach((x, ci) => {
-          const tomatoS = x.p.sauce === 'tomato';
-          const pre = tomatoS ? (x.s.round ? '4–5' : '5–6') : (x.s.round ? '3–4' : '4–5');
-          const main = x.s.round ? '5–7 мин внизу, затем 1–2 мин в середине' : '6–8 мин внизу, затем 2–3 мин в середине';
-          const id = 'pz-' + x.row.type;
-          html += `<section class="pcard" id="${ci === c.cards.findIndex(y => y.row.type === x.row.type) ? id : ''}">
-            ${orn}
-            <h2>${x.p.name} <small>${x.s.name.toLowerCase()}${x.row.count > 1 ? ' · ×' + x.row.count : ''}</small></h2>
-            ${x.p.intro ? `<p class="intro">${x.p.intro}</p>` : ''}
-            ${R('c' + ci + 'd', { name:'Тесто', qty:PG(x.d), unit:'г', note:'' })}
-            ${R('c' + ci + 's', { name:tomatoS ? 'Томатный соус' : 'Белый соус', qty:PG(x.sg), unit:'г', note:'' })}
-            ${x.lines.map((l, i) => R('c' + ci + 'i' + i, l)).join('')}
-            ${x.p.extra.map((e, i) => R('c' + ci + 'e' + i, { name:e[0], qty:e[1], unit:'', note:e[2] })).join('')}
-            <div class="timing"><b>Основа с соусом:</b> ${pre} мин на нижнем уровне. <b>С начинкой:</b> ${main}.${x.row.count > 1 ? ' Количества — на одну пиццу.' : ''}</div>
-            <ol class="steps small">${x.p.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-          </section>`;
-        });
-
-        html += `${orn}<h2>Выпечка: общая схема</h2>
-          <ol class="steps small">${PIZZA.bake.map(s => `<li>${s}</li>`).join('')}</ol>
-          <aside class="margin"><span class="smallcaps">заметка на полях</span>${PIZZA.bakeNote}</aside>
-
-          ${orn}<h2>Список покупок</h2>
-          <div class="sub">Купить</div>${L.buy.map((x, i) => R('b' + i, x)).join('')}
-          <div class="sub">Проверить дома</div>${L.home.map((x, i) => R('h' + i, x)).join('')}
-          <div class="listTools">
-            <span class="hint">Количества на круглые пиццы пересчитаны по площади</span>
-            <button class="btn" id="shareBtn">Отправить список</button>
-          </div>`;
+            { name:'Томаты в собственном соку', qty:PG(400*t), unit:'г', note:'' },
+            { name:'Масло', qty:pfrac(t), unit:'ст. л.', note:'' },
+            { name:'Чеснок сухой', qty:pfrac(0.5*t), unit:'ч. л.', note:'' },
+            { name:'Соль', qty:pfrac(0.75*t), unit:'ч. л.', note:'' },
+            { name:'Сахар', qty:pfrac(0.5*t), unit:'ч. л.', note:'' },
+            { name:'Орегано', qty:pfrac(t), unit:'ч. л.', note:'' }
+          ].map((x, i) => R('t' + i, x)).join('')}
+          ${stepsHTML(PIZZA.sauces.tomato.steps, 'small')}`;
       }
-      output.innerHTML = html + '</div>';
+      if(c.white){
+        const w = c.white/200;
+        html += `<div class="h3">Белый соус <small>${PG(c.white)} г</small></div>
+          ${[
+            { name:'Молоко', qty:nf.format(prg(200*w)), unit:'мл', note:'' },
+            { name:'Мука', qty:pfrac(w), unit:'ст. л.', note:'с горкой' },
+            { name:'Чеснок сухой', qty:pfrac(0.375*w), unit:'ч. л.', note:'' },
+            { name:'Пармезан, тёртый', qty:PG(30*w), unit:'г', note:'' }
+          ].map((x, i) => R('w' + i, x)).join('')}
+          ${stepsHTML(PIZZA.sauces.white.steps, 'small')}`;
+      }
+
+      c.cards.forEach((x, ci) => {
+        const tomatoS = x.p.sauce === 'tomato';
+        const pre = tomatoS ? (x.s.round ? '4–5' : '5–6') : (x.s.round ? '3–4' : '4–5');
+        const main = x.s.round ? '5–7 мин внизу и 1–2 в середине' : '6–8 мин внизу и 2–3 в середине';
+        html += `<div class="h3">${x.p.name} <small>${x.s.name.toLowerCase()}${x.row.count > 1 ? ', ×' + x.row.count : ''}</small></div>
+          ${R('c' + ci + 's', { name:tomatoS ? 'Томатный соус' : 'Белый соус', qty:PG(x.sg), unit:'г', note:'' })}
+          ${x.lines.map((l, i) => R('c' + ci + 'i' + i, l)).join('')}
+          <div class="timing">Основа с соусом — ${pre} мин, с начинкой — ${main}.${x.row.count > 1 ? ' Количества на одну пиццу.' : ''}</div>
+          ${stepsHTML(x.p.steps, 'small')}`;
+      });
+
+      html += `<div class="h3">Выпечка <small>250–270 °C</small></div>
+        ${stepsHTML(PIZZA.bake, 'small')}
+        ${noteHTML(PIZZA.bakeNote)}`;
+      output.innerHTML = html;
     }
 
     /* ---------- список покупок ---------- */
@@ -683,7 +683,7 @@
       }
       pickerOpen = false; state.q = ''; search.value = '';
       renderTabs(); renderChips(); syncInput(); render(); save();
-      output.scrollIntoView({ behavior:'smooth', block:'start' });
+      $('page').scrollIntoView({ behavior:'smooth', block:'start' });
     });
     document.querySelector('.seg').addEventListener('click', e => {
       const b = e.target.closest('[data-mode]'); if(!b || b.dataset.mode === state.mode) return;
