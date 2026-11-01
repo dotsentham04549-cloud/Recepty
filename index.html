@@ -167,6 +167,12 @@
 
     .margin{margin-top:8px; padding:12px 14px 12px 16px; background:var(--oliveSoft); border-left:3px solid var(--olive); border-radius:0 10px 10px 0; font-family:var(--serif); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--ink)}
     .margin .smallcaps{display:block; font-style:normal; color:var(--olive); margin-bottom:4px}
+    .stamp{display:inline-flex; align-items:center; gap:8px; margin-top:12px; font-family:var(--serif); font-size:14.5px; color:var(--muted); font-style:italic}
+    .stamp .sq{width:18px; height:18px; border:1.5px solid var(--muted); border-radius:4px; display:grid; place-items:center; font-style:normal; font-size:13px; line-height:1}
+    .stamp.on{color:var(--olive); font-style:normal; font-weight:600; border:1.5px solid var(--olive); border-radius:6px; padding:3px 10px 3px 8px; transform:rotate(-2deg); letter-spacing:.02em}
+    .stamp.on .sq{border:0; width:auto; height:auto; font-size:15px}
+    .h3 .stamp{margin:0 0 0 auto; font-size:13px}
+    .toc .ok{color:var(--olive); font-family:var(--sans); font-weight:700; font-size:13px; margin-left:6px}
     .colophon{margin-top:40px; text-align:center}
     .colophon p{margin:6px 0 0; font-family:var(--serif); font-style:italic; color:var(--muted); font-size:15px}
     .lede{font-family:var(--serif); font-style:italic; color:var(--ink2); font-size:16px; margin:0}
@@ -202,7 +208,7 @@
     .toast{
       position:fixed; left:50%; bottom:calc(22px + var(--safeBottom)); transform:translateX(-50%); z-index:5;
       background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:999px;
-      font-family:var(--serif); font-size:14px; opacity:0; pointer-events:none; transition:opacity .2s;
+      font-family:var(--serif); font-size:14px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s;
     }
     .toast.show{opacity:1}
     @media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
@@ -272,11 +278,12 @@
 
     /* ---------- состояние ---------- */
     const STORE = 'mangal.v8';
-    const state = { recipe:'pork', cat:'all', mode:'kg', range:true, q:'', amounts:{}, people:6,
+    const state = { recipe:'pork', cat:'all', mode:'kg', range:true, q:'', amounts:{}, people:6, tested:{},
       pizza:[{type:'pepperoni',size:'tray',count:1},{type:'cheese',size:'tray',count:1}] };
     try{ Object.assign(state, JSON.parse(localStorage.getItem(STORE) || '{}')); }catch(e){}
     if(!recipes[state.recipe]) state.recipe = 'pork';
     if(!Array.isArray(state.pizza)) state.pizza = [];
+    if(!state.tested || typeof state.tested !== 'object') state.tested = {};
     state.pizza = state.pizza.filter(p => PIZZA.types[p.type] && PIZZA.sizes[p.size]);
     state.q = '';
     const done = new Set();
@@ -287,7 +294,7 @@
     const weightInput = $('weight'), rangeMode = $('rangeMode'), search = $('search');
 
     function save(){
-      try{ localStorage.setItem(STORE, JSON.stringify({recipe:state.recipe, cat:state.cat, mode:state.mode, range:state.range, amounts:state.amounts, people:state.people, pizza:state.pizza})); }catch(e){}
+      try{ localStorage.setItem(STORE, JSON.stringify({recipe:state.recipe, cat:state.cat, mode:state.mode, range:state.range, amounts:state.amounts, people:state.people, pizza:state.pizza, tested:state.tested})); }catch(e){}
     }
 
     /* ---------- округление ---------- */
@@ -366,8 +373,10 @@
 
     /* ---------- выбор рецепта ---------- */
     function renderTabs(){
-      const count = id => id === 'all' ? Object.keys(recipes).length : Object.values(recipes).filter(r => r.cat === id).length;
-      tabs.innerHTML = CATS.map(c => `<button class="tab ${state.cat === c.id && !state.q ? 'on' : ''}" data-cat="${c.id}">${c.name}<b>${count(c.id)}</b></button>`).join('');
+      const count = id => id === 'all' ? Object.keys(recipes).length
+        : id === 'tested' ? Object.keys(recipes).filter(isTested).length
+        : Object.values(recipes).filter(r => r.cat === id).length;
+      tabs.innerHTML = CATS.concat([{ id:'tested', name:'✓ Проверенные' }]).map(c => `<button class="tab ${state.cat === c.id && !state.q ? 'on' : ''}" data-cat="${c.id}">${c.name}<b>${count(c.id)}</b></button>`).join('');
     }
     function renderChips(){
       $('picker').classList.toggle('closed', !pickerOpen);
@@ -379,13 +388,13 @@
       const q = state.q.trim().toLowerCase();
       const list = Object.entries(recipes).filter(([key, r]) => {
         if(q) return searchText(r).includes(q);
-        return state.cat === 'all' || r.cat === state.cat;
+        return state.cat === 'all' || r.cat === state.cat || (state.cat === 'tested' && isTested(key));
       });
       const showChapter = q || state.cat === 'all';
       chips.innerHTML = list.length ? list.map(([key, r]) => `
         <button class="${state.recipe === key ? 'active' : ''}" data-recipe="${key}">
           <span class="mark">${state.recipe === key ? '▸' : ''}</span>
-          <span><span class="t">${r.title}</span><span class="s">${r.short}</span></span>
+          <span><span class="t">${r.title}</span>${isTested(key) ? '<span class="ok">✓</span>' : ''}<span class="s">${r.short}</span></span>
           ${showChapter ? `<span class="chapter">${catName(r.cat)}</span>` : ''}
         </button>`).join('') : '<div class="empty">Ничего не нашлось</div>';
     }
@@ -396,6 +405,11 @@
       (r.ingredients || []).forEach(i => parts.push(i.name));
       if(r.pizza) PIZZA.types[r.pizza].items.forEach(([k]) => parts.push(PIZZA.ing[k].n));
       return parts.join(' ').toLowerCase();
+    }
+    const isTested = key => key in state.tested ? state.tested[key] : !!(recipes[key] && recipes[key].tested);
+    function stampHTML(key){
+      const on = isTested(key);
+      return `<button class="stamp ${on ? 'on' : ''}" data-tested="${key}" aria-pressed="${on}"><span class="sq">${on ? '✓' : ''}</span>${on ? 'Проверено' : 'отметить как проверенный'}</button>`;
     }
     const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
     function guests(n){ n = Math.round(n); const a = n % 10, b = n % 100;
@@ -449,7 +463,8 @@
       $('pageHead').innerHTML = `
         <div class="smallcaps chapterLine">${chapterLabel(r)}</div>
         <h1 class="recipeTitle">${r.title}</h1>
-        <p class="lede">${r.short}</p>`;
+        <p class="lede">${r.short}</p>
+        ${r.special === 'pizza' ? '' : stampHTML(state.recipe)}`;
       if(r.special === 'pizza'){ renderPizza(r); return; }
 
       const k = kindOf(r), w = baseKg(r);
@@ -618,6 +633,7 @@
         const pre = tomatoS ? (x.s.round ? '4–5' : '5–6') : (x.s.round ? '3–4' : '4–5');
         const main = x.s.round ? '5–7 мин внизу и 1–2 в середине' : '6–8 мин внизу и 2–3 в середине';
         html += `<div class="h3">${x.p.name} <small>${x.s.name.toLowerCase()}${x.row.count > 1 ? ', ×' + x.row.count : ''}</small></div>
+          ${stampHTML('pizza_' + x.row.type)}
           ${R('c' + ci + 's', { name:tomatoS ? 'Томатный соус' : 'Белый соус', qty:PG(x.sg), unit:'г', note:'' })}
           ${x.lines.map((l, i) => R('c' + ci + 'i' + i, l)).join('')}
           <div class="timing">Основа с соусом — ${pre} мин, с начинкой — ${main}.${x.row.count > 1 ? ' Количества на одну пиццу.' : ''}</div>
@@ -696,12 +712,21 @@
     weightInput.addEventListener('input', () => { storeInput(); scheduleRender(); });
     rangeMode.checked = state.range;
     rangeMode.addEventListener('change', () => { state.range = rangeMode.checked; save(); render(); });
+    function toggleTested(e){
+      const b = e.target.closest('[data-tested]'); if(!b) return false;
+      const k = b.dataset.tested; state.tested[k] = !isTested(k); save();
+      render(); renderTabs(); renderChips();
+      toast(state.tested[k] ? 'Отмечено как проверенный' : 'Отметка снята');
+      return true;
+    }
+    $('pageHead').addEventListener('click', toggleTested);
     output.addEventListener('change', e => {
       const el = e.target.closest('[data-pf]'); if(!el) return;
       state.pizza[+el.dataset.pi][el.dataset.pf] = el.value; save(); render();
     });
     output.addEventListener('click', e => {
       if(e.target.closest('#shareBtn')){ share(); return; }
+      if(toggleTested(e)) return;
       const st = e.target.closest('[data-pd]');
       if(st){ const p = state.pizza[+st.dataset.pi]; p.count = Math.min(10, Math.max(1, p.count + Number(st.dataset.pd))); save(); render(); return; }
       const del = e.target.closest('[data-pdel]');
